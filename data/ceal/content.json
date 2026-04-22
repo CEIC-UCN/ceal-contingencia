@@ -1,0 +1,137 @@
+{
+  "summary": {
+    "current_status": "Paro en reevaluación diaria",
+    "next_plenum": "Hoy · 17:00",
+    "current_result": "Paralización vigente hasta nueva votación",
+    "source_label": "Pleno + FEUCN + DGE",
+    "agreements": [
+      "La continuidad de la paralización se revisa jornada a jornada con votación previa al pleno.",
+      "La carrera debe comunicar acuerdos y cambios por canales oficiales antes de cada nueva revalidación.",
+      "Las garantías pedidas incluyen flexibilidad de asistencia, recalendarización y claridad sobre evaluaciones."
+    ],
+    "news": [
+      "La comunicación más útil para estudiantes es la que separa lo confirmado, lo pendiente y lo que sigue en gestión.",
+      "Las dudas más repetidas hoy giran en torno a asistencia, evaluaciones y alcance de la movilización.",
+      "La trazabilidad importa: si un caso no queda registrado, después cuesta levantar evidencia ante jefatura o pleno."
+    ]
+  },
+  "faq": {
+    "updated_at": "2026-04-21T10:15:00-04:00",
+    "source_label": "Actualización consolidada con acuerdos vigentes",
+    "categories": [
+      { "id": "asistencia", "label": "Asistencia", "icon": "i-calendar" },
+      { "id": "evaluaciones", "label": "Evaluaciones", "icon": "i-file" },
+      { "id": "marcha", "label": "Marcha", "icon": "i-megaphone" },
+      { "id": "pleno", "label": "Pleno", "icon": "i-users" },
+      { "id": "contacto", "label": "Contacto", "icon": "i-mail" }
+    ],
+    "items": [
+      {
+        "category": "asistencia",
+        "question": "¿Se tomará asistencia durante la contingencia?",
+        "answer": "Mientras dure la contingencia y la paralización vigente, la postura publicada es que no debería correr asistencia como mecanismo de presión. Si en un curso ocurre lo contrario, repórtalo para dejar respaldo.",
+        "status": "confirmed",
+        "status_label": "Confirmado",
+        "updated_at": "2026-04-21T10:15:00-04:00"
+      },
+      {
+        "category": "evaluaciones",
+        "question": "¿Habrá evaluaciones esta semana?",
+        "answer": "Sigue en revisión. La exigencia estudiantil es que cualquier evaluación se reordene con criterios claros, sin improvisación y con comunicación formal suficiente.",
+        "status": "review",
+        "status_label": "En revisión",
+        "updated_at": "2026-04-21T09:58:00-04:00"
+      },
+      {
+        "category": "evaluaciones",
+        "question": "¿Qué pasa si ya tengo una evaluación programada?",
+        "answer": "No asumas que todo quedó resuelto automáticamente. Revisa el comunicado más reciente de tu carrera y, si el ramo mantiene exigencias sin claridad, deja incidencia con fecha, ramo y evidencia.",
+        "status": "confirmed",
+        "status_label": "Confirmado",
+        "updated_at": "2026-04-21T10:02:00-04:00"
+      },
+      {
+        "category": "marcha",
+        "question": "¿La marcha es obligatoria?",
+        "answer": "No. La movilización es una acción colectiva convocada para visibilizar la postura estudiantil, pero no opera como obligación individual automática.",
+        "status": "review",
+        "status_label": "En revisión",
+        "updated_at": "2026-04-21T09:51:00-04:00"
+      },
+      {
+        "category": "pleno",
+        "question": "¿Habrá cambio de fechas en el calendario académico?",
+        "answer": "Sí, es una de las gestiones abiertas. La discusión incluye recalendarización de evaluaciones y recuperación de actividades, pero debe quedar formalizada antes de tratarla como cerrada.",
+        "status": "confirmed",
+        "status_label": "Confirmado",
+        "updated_at": "2026-04-21T09:47:00-04:00"
+      },
+      {
+        "category": "pleno",
+        "question": "¿Dónde puedo ver los acuerdos del pleno?",
+        "answer": "En los comunicados oficiales publicados por la carrera y en la síntesis posterior al pleno. Si ves versiones parciales o reenviadas, prioriza siempre la publicación consolidada.",
+        "status": "confirmed",
+        "status_label": "Confirmado",
+        "updated_at": "2026-04-21T09:44:00-04:00"
+      },
+      {
+        "category": "contacto",
+        "question": "¿A quién contacto si tengo un caso urgente?",
+        "answer": "Si el caso afecta tu situación académica inmediata, repórtalo aquí con evidencia. La idea no es dispersarlo por chats: queda ordenado para seguimiento con jefatura, docencia o pleno según corresponda.",
+        "status": "official",
+        "status_label": "Sin respuesta oficial",
+        "updated_at": "2026-04-21T09:39:00-04:00"
+      },
+      {
+        "category": "evaluaciones",
+        "question": "¿Las clases se recuperarán?",
+        "answer": "Lo más probable es que sí exista recuperación o reordenamiento, pero eso debe venir acompañado de recalendarización clara y criterios que no perjudiquen a estudiantes que ya estaban sobrecargados.",
+        "status": "review",
+        "status_label": "En revisión",
+        "updated_at": "2026-04-21T09:36:00-04:00"
+      }
+    ]
+  },
+  "reporting": {
+    "issue_types": [
+      { "id": "issue_attendance", "label": "Asistencia", "icon": "i-users" },
+      { "id": "issue_assessment", "label": "Evaluación", "icon": "i-calendar" },
+      { "id": "issue_contradiction", "label": "Información contradictoria", "icon": "i-alert" },
+      { "id": "issue_pressure", "label": "Presión docente", "icon": "i-info" },
+      { "id": "issue_admin", "label": "Trámite", "icon": "i-file" },
+      { "id": "issue_other", "label": "Otro", "icon": "i-menu" }
+    ],
+    "unit_suggestions": [
+      "Ingeniería Civil",
+      "Jefatura de carrera",
+      "Secretaría docente",
+      "DGE",
+      "VRA",
+      "Hormigón",
+      "Sismología",
+      "Estructuras",
+      "Hidráulica",
+      "Geotecnia",
+      "Topografía",
+      "Mecánica de suelos"
+    ],
+    "allowed_file_types": [
+      "image/png",
+      "image/jpeg",
+      "image/webp",
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ],
+    "allowed_file_extensions": [
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".webp",
+      ".pdf",
+      ".doc",
+      ".docx"
+    ],
+    "max_file_size_bytes": 10485760
+  }
+}
