@@ -43,6 +43,7 @@ let evidencePicker = null;
 const elements = {
   body: document.body,
   sidebar: document.getElementById("mobile-menu"),
+  overlay: document.querySelector('[data-action="close-menu"]'),
   menuButton: document.querySelector('[data-action="toggle-menu"]'),
   viewPanels: Array.from(document.querySelectorAll(".view-panel")),
   viewButtons: Array.from(document.querySelectorAll("[data-view-target]")),
@@ -127,14 +128,25 @@ function setRouteView(view) {
   }
 }
 
+function syncMenuState(isOpen) {
+  elements.sidebar.classList.toggle("is-open", isOpen);
+  elements.overlay?.classList.toggle("is-visible", isOpen);
+  elements.body.classList.toggle("menu-open", isOpen);
+  elements.sidebar.setAttribute("aria-hidden", String(!isOpen));
+  elements.overlay?.setAttribute("aria-hidden", String(!isOpen));
+  elements.menuButton?.setAttribute("aria-expanded", String(isOpen));
+  elements.menuButton?.setAttribute("aria-label", isOpen ? "Cerrar navegacion" : "Abrir navegacion");
+}
+
 function closeMenu() {
-  elements.sidebar.classList.remove("is-open");
-  elements.menuButton?.setAttribute("aria-expanded", "false");
+  syncMenuState(false);
 }
 
 function toggleMenu() {
-  const isOpen = elements.sidebar.classList.toggle("is-open");
-  elements.menuButton?.setAttribute("aria-expanded", String(isOpen));
+  if (window.innerWidth >= 1080) {
+    return;
+  }
+  syncMenuState(!elements.sidebar.classList.contains("is-open"));
 }
 
 function setView(view) {
@@ -296,19 +308,23 @@ function renderSubmissionStatus() {
   const fallback = {
     accepts_submissions: false,
     storage_mode: "offline",
-    message: "No se pudo verificar el endpoint de recepción.",
+    message: "No pudimos revisar el estado del formulario en este momento.",
   };
 
   const data = state.submissionStatus || fallback;
   const modeLabelMap = {
-    webhook: "Conectado a recepción externa",
-    filesystem: "Guardado local habilitado",
-    offline: "Backend no disponible",
-    unconfigured: "Configurar recepción en producción",
+    webhook: "Formulario disponible",
+    filesystem: "Formulario disponible",
+    offline: "Formulario no disponible",
+    unconfigured: "Formulario no disponible",
   };
 
-  const label = modeLabelMap[data.storage_mode] || "Recepción disponible";
-  const message = data.message || "El sistema está listo para recibir incidencias.";
+  const label = modeLabelMap[data.storage_mode] || "Formulario disponible";
+  const defaultMessage =
+    data.accepts_submissions
+      ? "Puedes enviar tu caso desde aqui."
+      : "Por ahora no es posible enviar reportes desde este formulario.";
+  const message = data.message || defaultMessage;
 
   elements.submissionModeBadge.textContent = label;
   elements.submissionModeCopy.textContent = message;
@@ -518,7 +534,7 @@ async function submitIncident(event) {
 
   if (!state.submissionStatus?.accepts_submissions) {
     setFormStatus(
-      "El backend de recepción no está listo. Configura la recepción o prueba en local con almacenamiento habilitado.",
+      "Por ahora este formulario no esta recibiendo reportes. Intentalo de nuevo en un momento.",
       "error",
     );
     return;
@@ -548,7 +564,7 @@ async function submitIncident(event) {
     updateChoiceCards();
     updateDescriptionCount();
     setFormStatus(
-      `Reporte enviado correctamente. ID ${payload.report_id}.`,
+      `Reporte enviado correctamente. Codigo ${payload.report_id}.`,
       "success",
     );
   } catch (error) {
@@ -561,20 +577,23 @@ async function submitIncident(event) {
 
 function bindEvents() {
   elements.menuButton?.addEventListener("click", toggleMenu);
+  elements.overlay?.addEventListener("click", closeMenu);
 
   document.addEventListener("click", (event) => {
     const menuClicked = event.target.closest('[data-action="toggle-menu"]');
+    const closeMenuButton = event.target.closest('[data-action="close-menu"]');
     const navButton = event.target.closest("[data-view-target]");
     const faqChip = event.target.closest("[data-faq-category]");
     const jumpButton = event.target.closest('[data-action="jump-section"]');
     const questionButton = event.target.closest('[data-action="open-report-question"]');
     const removeFileButton = event.target.closest('[data-action="remove-file"]');
 
-    if (!event.target.closest(".app-sidebar") && !event.target.closest('[data-action="toggle-menu"]') && window.innerWidth < 1080) {
-      closeMenu();
+    if (menuClicked) {
+      return;
     }
 
-    if (menuClicked) {
+    if (closeMenuButton) {
+      closeMenu();
       return;
     }
 
@@ -620,6 +639,18 @@ function bindEvents() {
 
   window.addEventListener("hashchange", () => {
     setView(getRouteView());
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1080) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
   });
 
   elements.faqSearch.addEventListener("input", (event) => {
@@ -674,7 +705,7 @@ async function init() {
             <p class="kicker">CEAL Ingeniería Civil</p>
             <h1>Error de carga</h1>
             <p class="hero-copy">
-              No se pudo levantar la experiencia CEAL. Revisa que el contenido y los endpoints estén disponibles.
+              No se pudo abrir esta pagina en este momento. Intenta recargar nuevamente.
             </p>
           </div>
         </header>

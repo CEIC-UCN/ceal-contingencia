@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0f3168">
-  <title>CEAL Ingeniería Civil UCN</title>
+  <title>CEAL Ingenieria Civil UCN</title>
   <meta
     name="description"
-    content="Preguntas frecuentes y reporte de incidencias para la contingencia estudiantil del CEAL de Ingeniería Civil UCN."
+    content="Preguntas frecuentes y formulario de incidencias del CEAL de Ingenieria Civil UCN."
   >
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,132 +94,39 @@
     <header class="app-topbar">
       <div class="brand-lockup">
         <div class="brand-mark" aria-hidden="true">
-          <svg class="brand-mark__svg" viewBox="0 0 120 120" role="presentation">
-            <defs>
-              <linearGradient id="brand-ring" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fefefe"></stop>
-                <stop offset="35%" stop-color="#d7d7d7"></stop>
-                <stop offset="60%" stop-color="#9d9d9d"></stop>
-                <stop offset="100%" stop-color="#f7f7f7"></stop>
-              </linearGradient>
-              <linearGradient id="brand-blue" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#dce8fb"></stop>
-                <stop offset="100%" stop-color="#7995c7"></stop>
-              </linearGradient>
-              <linearGradient id="brand-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ffd089"></stop>
-                <stop offset="55%" stop-color="#f1a64d"></stop>
-                <stop offset="100%" stop-color="#d78122"></stop>
-              </linearGradient>
-              <filter id="brand-soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(15,49,104,0.18)"></feDropShadow>
-              </filter>
-            </defs>
-            <circle cx="60" cy="60" r="54" fill="url(#brand-ring)"></circle>
-            <circle cx="60" cy="60" r="47.5" fill="#ffffff"></circle>
-            <path
-              d="M24 27c10-7 22-10 35-10 17 0 33 5 47 15"
-              fill="none"
-              stroke="url(#brand-blue)"
-              stroke-linecap="round"
-              stroke-width="5"
-            ></path>
-            <path
-              d="M20 72c6 12 16 21 29 27"
-              fill="none"
-              stroke="#a9a9a9"
-              stroke-linecap="round"
-              stroke-width="5"
-            ></path>
-            <path
-              d="M93 20c8 2 15 6 21 12"
-              fill="none"
-              stroke="#a9a9a9"
-              stroke-linecap="round"
-              stroke-width="5"
-            ></path>
-            <path
-              d="M70 100c11-1 22-5 31-12 8-7 14-16 18-27"
-              fill="none"
-              stroke="#bcc4d4"
-              stroke-linecap="round"
-              stroke-width="5"
-            ></path>
-            <text
-              x="60"
-              y="14.5"
-              fill="#6f7d96"
-              font-family="Manrope, Segoe UI, sans-serif"
-              font-size="7"
-              letter-spacing="0.16em"
-              text-anchor="middle"
-            >UCN · INGENIERÍA CIVIL</text>
-            <circle cx="33" cy="38" r="9.3" fill="url(#brand-gold)" filter="url(#brand-soft-shadow)"></circle>
-            <path
-              d="M31 85c2-11 4-21 7-32h12l9 15 23-1-11 7h8l17-11-8 1 7-6-20 1-9-14H36l-9 38z"
-              fill="url(#brand-gold)"
-              filter="url(#brand-soft-shadow)"
-            ></path>
-            <path
-              d="M65 49v34h8V62h8L68 46 55 62h8v21h2"
-              fill="url(#brand-blue)"
-              filter="url(#brand-soft-shadow)"
-            ></path>
-            <path
-              d="M68 47v36"
-              fill="none"
-              stroke="#5d79aa"
-              stroke-linecap="round"
-              stroke-width="2.8"
-            ></path>
-            <path
-              d="M43 53 33 84h9l3-10 18-1-9-20z"
-              fill="url(#brand-gold)"
-              filter="url(#brand-soft-shadow)"
-            ></path>
-            <path
-              d="M82 52h8l-4 22h-8z"
-              fill="url(#brand-gold)"
-              filter="url(#brand-soft-shadow)"
-            ></path>
-            <path
-              d="M77 75h14l2 9H77z"
-              fill="url(#brand-gold)"
-              filter="url(#brand-soft-shadow)"
-            ></path>
-          </svg>
+          <img class="brand-mark__image" src="/static/logo-ingenieria-civil.png" alt="">
         </div>
         <div class="brand-copy">
           <div class="brand-copy__line">CEAL</div>
-          <div class="brand-copy__sub">Ingeniería Civil</div>
+          <div class="brand-copy__sub">Ingenieria Civil</div>
           <div class="brand-copy__foot">UCN</div>
         </div>
       </div>
       <div class="topbar-actions">
-        <span class="status-pill">Contingencia activa</span>
-        <button class="menu-button" type="button" data-action="toggle-menu" aria-label="Abrir navegación" aria-expanded="false">
+        <span class="status-pill">Informacion actualizada</span>
+        <button class="menu-button" type="button" data-action="toggle-menu" aria-label="Abrir navegacion" aria-expanded="false">
           <svg><use href="#i-menu"></use></svg>
         </button>
       </div>
     </header>
 
     <div class="app-layout">
-      <aside class="app-sidebar" id="mobile-menu" aria-label="Navegación CEAL">
+      <aside class="app-sidebar" id="mobile-menu" aria-label="Navegacion CEAL" aria-hidden="true">
         <nav class="sidebar-card">
-          <p class="sidebar-card__eyebrow">Navegación</p>
+          <p class="sidebar-card__eyebrow">Navegacion</p>
           <div class="nav-list">
             <button class="nav-item is-active" type="button" data-view-target="faq">
               <svg><use href="#i-info"></use></svg>
               <span>
                 <strong>Preguntas frecuentes</strong>
-                <small>Información validada y visible para toda la carrera.</small>
+                <small>Respuestas actualizadas para consultar rapido.</small>
               </span>
             </button>
             <button class="nav-item" type="button" data-view-target="report">
               <svg><use href="#i-send"></use></svg>
               <span>
                 <strong>Reporte de incidencias</strong>
-                <small>Respaldo estructurado para seguimiento colectivo.</small>
+                <small>Cuenta lo que paso para poder revisarlo.</small>
               </span>
             </button>
           </div>
@@ -248,13 +155,15 @@
         </section>
 
         <section class="sidebar-card system-card">
-          <p class="sidebar-card__eyebrow">Recepción de reportes</p>
+          <p class="sidebar-card__eyebrow">Formulario</p>
           <div class="system-card__badge" id="submission-mode-badge">Verificando...</div>
           <p class="system-card__copy" id="submission-mode-copy">
-            Consultando disponibilidad del formulario.
+            Revisa aqui si el formulario esta disponible.
           </p>
         </section>
       </aside>
+
+      <button class="app-overlay" type="button" data-action="close-menu" aria-hidden="true" tabindex="-1"></button>
 
       <main class="app-main">
         <div class="view-tabs" role="tablist" aria-label="Secciones principales">
@@ -269,10 +178,10 @@
         <section class="view-panel is-active" id="view-faq" data-view="faq" aria-labelledby="faq-title">
           <header class="hero-block">
             <div>
-              <p class="kicker">Respuestas claras, oficiales y actualizadas</p>
+              <p class="kicker">Respuestas claras y actualizadas</p>
               <h1 id="faq-title">Preguntas frecuentes</h1>
               <p class="hero-copy">
-                Una sola fuente para bajar el ruido de WhatsApp, RRSS y plenos durante la contingencia.
+                Revisa aqui que esta confirmado, que sigue en revision y donde ver los acuerdos mas recientes.
               </p>
             </div>
             <div class="hero-meta">
@@ -305,14 +214,14 @@
               <svg><use href="#i-file"></use></svg>
             </div>
             <div class="cta-banner__copy">
-              <h2>¿Tienes otra duda?</h2>
+              <h2>¿No aparece tu caso?</h2>
               <p>
-                Si no está respondida aquí, envíala como incidencia o consulta y la dejamos trazable.
+                Si no esta respondido aqui, envialo para revisarlo y darle seguimiento.
               </p>
             </div>
             <button class="cta-banner__button" type="button" data-action="open-report-question">
               <svg><use href="#i-send"></use></svg>
-              <span>Enviar nueva duda</span>
+              <span>Enviar consulta</span>
             </button>
           </section>
 
@@ -335,7 +244,7 @@
               <p class="kicker">Contingencia estudiantil</p>
               <h1 id="report-title">Reporte de incidencias</h1>
               <p class="hero-copy">
-                Reporta presión por asistencia, evaluaciones no recalendarizadas, información contradictoria o trabas administrativas.
+                Reporta problemas con asistencia, evaluaciones, informacion contradictoria o tramites pendientes.
               </p>
             </div>
           </header>
@@ -347,8 +256,8 @@
                   <svg><use href="#i-shield"></use></svg>
                 </div>
                 <div>
-                  <h2>Este reporte es confidencial y anónimo.</h2>
-                  <p>Se sistematiza para respaldo, trazabilidad y seguimiento colectivo.</p>
+                  <h2>Este reporte es confidencial y anonimo.</h2>
+                  <p>Se usa para ordenar casos y ayudar con su seguimiento.</p>
                 </div>
               </div>
 
@@ -451,25 +360,25 @@
 
             <aside class="report-sidebar">
               <article class="info-card">
-                <p class="info-card__eyebrow">Qué pasa después</p>
+                <p class="info-card__eyebrow">Que pasa despues</p>
                 <ul class="info-list">
-                  <li>Se ordena por tipo de problema, fecha y unidad.</li>
-                  <li>Se consolida evidencia para vocería, pleno o seguimiento docente.</li>
-                  <li>Se puede derivar a acciones colectivas sin exponer identidad.</li>
+                  <li>Tu caso queda ordenado con la fecha y el tipo de problema.</li>
+                  <li>Sirve para revisar situaciones repetidas o casos urgentes.</li>
+                  <li>La informacion puede usarse sin exponer tu identidad.</li>
                 </ul>
               </article>
               <article class="info-card">
-                <p class="info-card__eyebrow">Recomendación de evidencia</p>
+                <p class="info-card__eyebrow">Que conviene adjuntar</p>
                 <ul class="info-list">
-                  <li>Sube capturas con fecha visible si hubo presión o mensajes contradictorios.</li>
-                  <li>Si es evaluación, indica ramo, sección y hora comprometida.</li>
-                  <li>Si es trámite, describe qué unidad respondió y qué quedó pendiente.</li>
+                  <li>Capturas con fecha visible si hubo presion o mensajes contradictorios.</li>
+                  <li>Si es evaluacion, indica ramo, seccion y horario.</li>
+                  <li>Si es tramite, explica que unidad respondio y que sigue pendiente.</li>
                 </ul>
               </article>
               <article class="info-card info-card--system">
-                <p class="info-card__eyebrow">Modo de recepción</p>
+                <p class="info-card__eyebrow">Estado del formulario</p>
                 <div class="system-chip" id="sidebar-submission-mode">Verificando...</div>
-                <p id="sidebar-submission-copy">Consultando disponibilidad del backend.</p>
+                <p id="sidebar-submission-copy">Revisa aqui si el formulario esta disponible.</p>
               </article>
             </aside>
           </div>

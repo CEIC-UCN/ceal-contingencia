@@ -47,6 +47,10 @@ body.ceal-body {
     linear-gradient(180deg, #eef3fb 0%, #f8fbff 44%, #eef4ff 100%);
 }
 
+body.ceal-body.menu-open {
+  overflow: hidden;
+}
+
 button,
 input,
 textarea,
@@ -56,6 +60,14 @@ select {
 
 button {
   cursor: pointer;
+}
+
+button,
+a,
+label,
+summary {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 a {
@@ -104,10 +116,16 @@ a {
   flex: 0 0 auto;
 }
 
-.brand-mark__svg {
+.brand-mark__svg,
+.brand-mark__image {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.brand-mark__image {
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(15, 49, 104, 0.22));
 }
 
 .brand-copy {
@@ -173,6 +191,10 @@ a {
   color: #fff;
 }
 
+.menu-button[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.18);
+}
+
 .menu-button svg {
   width: 26px;
   height: 26px;
@@ -192,15 +214,38 @@ a {
   gap: 14px;
   padding: 0;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(-8px);
-  transition: opacity 160ms ease, transform 160ms ease;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 0ms linear 160ms;
 }
 
 .app-sidebar.is-open {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+  transition-delay: 0ms;
+}
+
+.app-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 24;
+  border: 0;
+  padding: 0;
+  background: rgba(8, 25, 56, 0.28);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 160ms ease, visibility 0ms linear 160ms;
+}
+
+.app-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0ms;
 }
 
 .sidebar-card,
@@ -251,6 +296,7 @@ a {
   background: #fff;
   color: var(--ink);
   text-align: left;
+  cursor: pointer;
   transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
 }
 
@@ -363,6 +409,7 @@ a {
   background: transparent;
   color: var(--ink-soft);
   font-weight: 800;
+  cursor: pointer;
 }
 
 .view-tab.is-active {
@@ -491,6 +538,8 @@ a {
   background: #fff;
   color: var(--navy);
   font-weight: 700;
+  cursor: pointer;
+  user-select: none;
   transition: transform 120ms ease, border-color 120ms ease, background 120ms ease, color 120ms ease;
 }
 
@@ -692,6 +741,7 @@ a {
   box-shadow: 0 16px 34px rgba(255, 107, 0, 0.2);
   font-size: 1rem;
   font-weight: 800;
+  user-select: none;
 }
 
 .cta-banner__button svg,
@@ -862,6 +912,8 @@ a {
   width: 100%;
   appearance: none;
   text-align: left;
+  cursor: pointer;
+  user-select: none;
 }
 
 .upload-shell__copy {
@@ -961,6 +1013,8 @@ a {
   background: #fff;
   color: var(--navy);
   font-weight: 700;
+  cursor: pointer;
+  user-select: none;
 }
 
 .choice-card svg {
@@ -1045,6 +1099,8 @@ a {
   border-radius: 18px;
   background: transparent;
   color: var(--ink-soft);
+  cursor: pointer;
+  min-height: 58px;
 }
 
 .bottom-nav__item svg {
@@ -1064,6 +1120,34 @@ a {
 
 .bottom-nav__item[href] {
   color: var(--ink-soft);
+}
+
+.menu-button:focus-visible,
+.nav-item:focus-visible,
+.view-tab:focus-visible,
+.filter-chip:focus-visible,
+.issue-option:focus-visible,
+.choice-card:focus-visible,
+.upload-shell:focus-visible,
+.cta-banner__button:focus-visible,
+.submit-button:focus-visible,
+.bottom-nav__item:focus-visible,
+.faq-summary:focus-visible {
+  outline: 3px solid rgba(255, 107, 0, 0.3);
+  outline-offset: 3px;
+}
+
+.menu-button:active,
+.nav-item:active,
+.view-tab:active,
+.filter-chip:active,
+.issue-option:active,
+.choice-card:active,
+.upload-shell:active,
+.cta-banner__button:active,
+.submit-button:active,
+.bottom-nav__item:active {
+  transform: translateY(1px) scale(0.99);
 }
 
 .is-hidden {
@@ -1117,8 +1201,10 @@ a {
     position: sticky;
     inset: 104px auto auto;
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
     transform: none;
+    transition: none;
   }
 
   .sidebar-card {
@@ -1138,6 +1224,10 @@ a {
   }
 
   .bottom-nav {
+    display: none;
+  }
+
+  .app-overlay {
     display: none;
   }
 }

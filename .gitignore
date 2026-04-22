@@ -1,2 +1,4 @@
 data/ceal/uploads/
 node_modules/
+
+.vercel

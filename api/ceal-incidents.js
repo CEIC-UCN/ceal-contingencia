@@ -149,10 +149,10 @@ export async function GET() {
     max_file_size_bytes: maxFileSizeBytes,
     message:
       storageMode === "webhook"
-        ? "El formulario envía incidencias a un endpoint externo configurado."
+        ? "El formulario esta disponible para recibir reportes."
         : storageMode === "filesystem"
-          ? "El formulario guarda incidencias en el almacenamiento local del proyecto."
-          : "Configura CEAL_REPORT_WEBHOOK_URL para usar recepción persistente en producción.",
+          ? "El formulario esta disponible para recibir reportes."
+          : "Por ahora el formulario no esta disponible.",
   });
 }
 
@@ -162,7 +162,7 @@ export async function POST(request) {
     return json(
       {
         error:
-          "Producción sin recepción configurada. Define CEAL_REPORT_WEBHOOK_URL o usa un entorno local con almacenamiento habilitado.",
+          "Por ahora el formulario no esta disponible.",
       },
       503,
     );

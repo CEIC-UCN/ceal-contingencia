@@ -10,9 +10,9 @@
       "Las garantías pedidas incluyen flexibilidad de asistencia, recalendarización y claridad sobre evaluaciones."
     ],
     "news": [
-      "La comunicación más útil para estudiantes es la que separa lo confirmado, lo pendiente y lo que sigue en gestión.",
+      "Lo mas util es separar lo confirmado, lo pendiente y lo que sigue en revision.",
       "Las dudas más repetidas hoy giran en torno a asistencia, evaluaciones y alcance de la movilización.",
-      "La trazabilidad importa: si un caso no queda registrado, después cuesta levantar evidencia ante jefatura o pleno."
+      "Si un caso no queda registrado, despues cuesta revisarlo o levantar evidencia."
     ]
   },
   "faq": {
@@ -77,7 +77,7 @@
       {
         "category": "contacto",
         "question": "¿A quién contacto si tengo un caso urgente?",
-        "answer": "Si el caso afecta tu situación académica inmediata, repórtalo aquí con evidencia. La idea no es dispersarlo por chats: queda ordenado para seguimiento con jefatura, docencia o pleno según corresponda.",
+        "answer": "Si el caso afecta tu situacion academica inmediata, reportalo aqui con evidencia para poder revisarlo segun corresponda.",
         "status": "official",
         "status_label": "Sin respuesta oficial",
         "updated_at": "2026-04-21T09:39:00-04:00"
