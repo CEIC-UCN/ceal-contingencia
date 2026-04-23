@@ -2,14 +2,6 @@ const contentUrl = "/data/ceal/content.json";
 const statusUrl = "/api/ceal-incidents";
 const draftKey = "ceal:incident-draft:v1";
 
-const chatQuickPrompts = [
-  { label: "Asistencia", prompt: "Se tomara asistencia durante la contingencia?" },
-  { label: "Evaluaciones", prompt: "Habra evaluaciones esta semana?" },
-  { label: "Acuerdos", prompt: "Donde puedo ver los acuerdos recientes?" },
-  { label: "Reportar un caso", prompt: "Quiero reportar un problema con un ramo" },
-  { label: "Contacto urgente", prompt: "A quien contacto si tengo un caso urgente?" },
-];
-
 const iconMap = {
   asistencia: "i-calendar",
   evaluaciones: "i-file",
@@ -44,7 +36,6 @@ const state = {
   submissionStatus: null,
   selectedIssueType: "",
   selectedFile: null,
-  chatMessages: [],
 };
 
 let evidencePicker = null;
@@ -64,10 +55,6 @@ const elements = {
   faqSourceText: document.getElementById("faq-source-text"),
   agreementsList: document.getElementById("agreements-list"),
   newsList: document.getElementById("news-list"),
-  chatMessages: document.getElementById("chat-messages"),
-  chatSuggestions: document.getElementById("chat-suggestions"),
-  chatForm: document.getElementById("chat-form"),
-  chatInput: document.getElementById("chat-input"),
   issueTypeGrid: document.getElementById("issue-type-grid"),
   unitOptions: document.getElementById("unit-options"),
   form: document.getElementById("incident-form"),
@@ -102,17 +89,6 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function normalizeText(value) {
-  return String(value || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-function formatChatText(value) {
-  return escapeHtml(value).replaceAll("\n", "<br>");
-}
-
 function formatDateTime(value) {
   const date = new Date(value);
   return new Intl.DateTimeFormat("es-CL", {
@@ -142,14 +118,11 @@ function getRouteView() {
   if (hash === "reporte" || hash === "report") {
     return "report";
   }
-  if (hash === "chat") {
-    return "chat";
-  }
   return "faq";
 }
 
 function setRouteView(view) {
-  const hash = view === "report" ? "reporte" : view === "chat" ? "chat" : "faq";
+  const hash = view === "report" ? "reporte" : "faq";
   if (window.location.hash.replace("#", "") !== hash) {
     history.replaceState(null, "", `#${hash}`);
   }
@@ -292,249 +265,6 @@ function renderInfoLists() {
 
   elements.agreementsList.innerHTML = agreements;
   elements.newsList.innerHTML = news;
-}
-
-function getStudentSafeStatus(value) {
-  const normalized = normalizeText(value);
-
-  if (normalized.includes("paro")) {
-    return "Situacion en reevaluacion diaria";
-  }
-
-  if (normalized.includes("paraliz")) {
-    return "Decision vigente hasta nueva votacion";
-  }
-
-  return value;
-}
-
-function ensureChatStarted() {
-  if (state.chatMessages.length) {
-    return;
-  }
-
-  state.chatMessages = [
-    {
-      role: "assistant",
-      text: "Hola. Pregunta por asistencia, evaluaciones, acuerdos, fechas o reportes.",
-      actions: [
-        { label: "Ver preguntas", action: "open-faq" },
-        { label: "Enviar reporte", action: "open-report" },
-      ],
-    },
-  ];
-}
-
-function renderChatSuggestions() {
-  if (!elements.chatSuggestions) {
-    return;
-  }
-
-  elements.chatSuggestions.innerHTML = chatQuickPrompts
-    .map(
-      (item) => `
-        <button class="chat-suggestion" type="button" data-chat-prompt="${escapeHtml(item.prompt)}">
-          ${escapeHtml(item.label)}
-        </button>
-      `,
-    )
-    .join("");
-}
-
-function renderChatMessages() {
-  if (!elements.chatMessages) {
-    return;
-  }
-
-  ensureChatStarted();
-
-  elements.chatMessages.innerHTML = state.chatMessages
-    .map((message) => {
-      const actions = (message.actions || [])
-        .map(
-          (action) => `
-            <button
-              class="chat-message__action"
-              type="button"
-              data-chat-action="${escapeHtml(action.action)}"
-              ${action.query ? `data-chat-query="${escapeHtml(action.query)}"` : ""}
-            >
-              ${escapeHtml(action.label)}
-            </button>
-          `,
-        )
-        .join("");
-
-      return `
-        <article class="chat-message chat-message--${escapeHtml(message.role)}">
-          <div class="chat-message__bubble">
-            <p>${formatChatText(message.text)}</p>
-            ${actions ? `<div class="chat-message__actions">${actions}</div>` : ""}
-          </div>
-        </article>
-      `;
-    })
-    .join("");
-
-  requestAnimationFrame(() => {
-    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-  });
-}
-
-function includesAny(value, words) {
-  return words.some((word) => value.includes(word));
-}
-
-function getBestFaqMatch(message) {
-  if (!state.content?.faq?.items?.length) {
-    return null;
-  }
-
-  const query = normalizeText(message);
-  const tokens = query
-    .split(/[^a-z0-9]+/)
-    .filter((token) => token.length >= 4 && !["esta", "este", "para", "como", "quiero"].includes(token));
-  const categoryKeywords = {
-    asistencia: ["asistencia", "clase", "clases", "presencial"],
-    evaluaciones: ["evaluacion", "evaluaciones", "prueba", "pruebas", "control", "controles", "examen", "nota"],
-    marcha: ["marcha", "movilizacion"],
-    pleno: ["pleno", "acuerdo", "acuerdos", "votacion", "fecha", "calendario"],
-    contacto: ["contacto", "urgente", "ayuda", "caso"],
-  };
-
-  return state.content.faq.items.reduce((best, item) => {
-    const haystack = normalizeText(`${item.question} ${item.answer} ${item.status_label} ${item.category}`);
-    let score = 0;
-
-    if (haystack.includes(query) || query.includes(normalizeText(item.question))) {
-      score += 6;
-    }
-
-    tokens.forEach((token) => {
-      if (haystack.includes(token)) {
-        score += 1;
-      }
-    });
-
-    const categoryWords = categoryKeywords[item.category] || [];
-    if (includesAny(query, categoryWords)) {
-      score += 3;
-    }
-
-    if (!best || score > best.score) {
-      return { item, score };
-    }
-
-    return best;
-  }, null);
-}
-
-function buildStatusReply() {
-  const summary = state.content.summary;
-  return {
-    role: "assistant",
-    text:
-      `Situacion actual:\n` +
-      `Estado: ${getStudentSafeStatus(summary.current_status)}.\n` +
-      `Proximo pleno: ${summary.next_plenum}.\n` +
-      `Resultado vigente: ${getStudentSafeStatus(summary.current_result)}.\n` +
-      `Fuente: ${summary.source_label}.`,
-    actions: [
-      { label: "Ver acuerdos", action: "open-agreements" },
-      { label: "Enviar reporte", action: "open-report" },
-    ],
-  };
-}
-
-function buildReportReply() {
-  return {
-    role: "assistant",
-    text:
-      "Si el caso afecta asistencia, evaluaciones, informacion contradictoria, presion docente o un tramite pendiente, conviene dejarlo como reporte. Agrega ramo, fecha y evidencia si tienes.",
-    actions: [{ label: "Abrir reporte", action: "open-report" }],
-  };
-}
-
-function buildChatReply(message) {
-  const query = normalizeText(message);
-  const wantsReport = includesAny(query, ["reportar", "reporte", "incidencia", "problema", "presion", "evidencia", "tramite"]);
-
-  if (!wantsReport && includesAny(query, ["estado", "hoy", "situacion", "actual", "que sigue", "sigue", "pleno", "acuerdo", "acuerdos", "votacion"])) {
-    return buildStatusReply();
-  }
-
-  const match = getBestFaqMatch(message);
-
-  if (!wantsReport && match?.score >= 3) {
-    const item = match.item;
-    return {
-      role: "assistant",
-      text: `Esto es lo publicado:\n${item.answer}\n\nEstado: ${item.status_label || statusLabelMap[item.status] || "En revision"}.`,
-      actions: [
-        { label: "Ver en preguntas", action: "open-faq", query: item.question },
-        { label: "Enviar reporte", action: "open-report" },
-      ],
-    };
-  }
-
-  if (wantsReport) {
-    return buildReportReply();
-  }
-
-  return {
-    role: "assistant",
-    text:
-      "No encontre una respuesta directa en las preguntas publicadas. Puedes revisar la FAQ o dejar el caso como reporte si necesitas que quede registrado.",
-    actions: [
-      { label: "Ver preguntas", action: "open-faq" },
-      { label: "Enviar reporte", action: "open-report" },
-    ],
-  };
-}
-
-function submitChatMessage(rawMessage) {
-  const message = String(rawMessage || "").trim();
-  if (!message) {
-    elements.chatInput?.focus();
-    return;
-  }
-
-  state.chatMessages.push({ role: "user", text: message });
-  state.chatMessages.push(buildChatReply(message));
-  renderChatMessages();
-}
-
-function openFaqFromChat(query = "") {
-  setView("faq");
-  state.faqCategory = "all";
-  state.query = query;
-  if (elements.faqSearch) {
-    elements.faqSearch.value = query;
-  }
-  renderFaqCategories();
-  renderFaqList();
-  document.getElementById("view-faq")?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function handleChatAction(button) {
-  const action = button.dataset.chatAction;
-
-  if (action === "open-report") {
-    state.selectedIssueType = "issue_other";
-    renderIssueTypes();
-    focusReportDescription();
-    return;
-  }
-
-  if (action === "open-agreements") {
-    setView("faq");
-    document.getElementById("acuerdos")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    return;
-  }
-
-  if (action === "open-faq") {
-    openFaqFromChat(button.dataset.chatQuery || "");
-  }
 }
 
 function renderStatusSummary() {
@@ -761,8 +491,6 @@ function renderAll() {
   renderFaqCategories();
   renderFaqList();
   renderInfoLists();
-  renderChatSuggestions();
-  renderChatMessages();
   renderIssueTypes();
   renderUnitOptions();
   renderSubmissionStatus();
@@ -859,8 +587,6 @@ function bindEvents() {
     const jumpButton = event.target.closest('[data-action="jump-section"]');
     const questionButton = event.target.closest('[data-action="open-report-question"]');
     const removeFileButton = event.target.closest('[data-action="remove-file"]');
-    const chatPrompt = event.target.closest("[data-chat-prompt]");
-    const chatAction = event.target.closest("[data-chat-action]");
 
     if (menuClicked) {
       return;
@@ -883,16 +609,6 @@ function bindEvents() {
       state.faqCategory = faqChip.dataset.faqCategory;
       renderFaqCategories();
       renderFaqList();
-      return;
-    }
-
-    if (chatPrompt) {
-      submitChatMessage(chatPrompt.dataset.chatPrompt);
-      return;
-    }
-
-    if (chatAction) {
-      handleChatAction(chatAction);
       return;
     }
 
@@ -940,13 +656,6 @@ function bindEvents() {
   elements.faqSearch.addEventListener("input", (event) => {
     state.query = event.target.value;
     renderFaqList();
-  });
-
-  elements.chatForm?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const message = elements.chatInput.value;
-    elements.chatInput.value = "";
-    submitChatMessage(message);
   });
 
   elements.issueTypeGrid.addEventListener("change", (event) => {
